@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MyScript IDE v2.0.0</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b1120;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #111827;
+            border-bottom: 1px solid #334155;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+
+            background: #2563eb;
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+        }
+
+        .logo span {
+            color: #60a5fa;
+        }
+
+        .status {
+            color: #22c55e;
+            font-size: 14px;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 94%;
+            max-width: 1400px;
+            margin: 25px auto;
+        }
+
+        .toolbar {
+            background: #111827;
+            border: 1px solid #334155;
+            padding: 12px;
+
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+
+            border-radius: 10px 10px 0 0;
+        }
+
+        button {
+            border: none;
+            border-radius: 6px;
+
+            padding: 10px 17px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+            color: white;
+
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+        }
+
+        #runButton {
+            background: #2563eb;
+        }
+
+        #runButton:hover {
+            background: #1d4ed8;
+        }
+
+        #exampleButton {
+            background: #7c3aed;
+        }
+
+        #saveButton {
+            background: #059669;
+        }
+
+        #loadButton {
+            background: #475569;
+        }
+
+        #clearButton {
+            background: #dc2626;
+        }
+
+        /* WORKSPACE */
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+
+            margin-top: 15px;
+        }
+
+        .panel {
+            background: #111827;
+
+            border: 1px solid #334155;
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: #1e293b;
+
+            padding: 12px 15px;
+
+            border-bottom: 1px solid #334155;
+
+            font-weight: bold;
+
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .panel-header span {
+            color: #60a5fa;
+        }
+
+        /* EDITOR */
+
+        textarea {
+            width: 100%;
+            height: 500px;
+
+            resize: none;
+
+            border: none;
+            outline: none;
+
+            padding: 20px;
+
+            background: #020617;
+
+            color: #e2e8f0;
+
+            font-family: Consolas, "Courier New", monospace;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            box-shadow: inset 0 0 0 1px #2563eb;
+        }
+
+        /* OUTPUT */
+
+        #output {
+            height: 500px;
+
+            padding: 20px;
+
+            background: #020617;
+
+            color: #22c55e;
+
+            font-family: Consolas, "Courier New", monospace;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+
+            white-space: pre-wrap;
+
+            overflow-y: auto;
+        }
+
+        .empty-output {
+            color: #64748b;
+        }
+
+        .error {
+            color: #ef4444;
+        }
+
+        /* INFORMATION */
+
+        .info {
+            margin-top: 20px;
+
+            padding: 18px;
+
+            background: #111827;
+
+            border: 1px solid #334155;
+
+            border-radius: 10px;
+        }
+
+        .info h2 {
+            color: #60a5fa;
+
+            margin-bottom: 10px;
+        }
+
+        .info p {
+            color: #94a3b8;
+
+            line-height: 1.6;
+        }
+
+        kbd {
+            background: #334155;
+
+            padding: 3px 7px;
+
+            border-radius: 4px;
+
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+
+            color: #64748b;
+
+            padding: 30px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+
+            textarea,
+            #output {
+                height: 350px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            MS
+        </div>
+
+        <div>
+            <h1>My<span>Script</span></h1>
+        </div>
+
+    </div>
+
+    <div class="status">
+        ● System Ready
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- TOOLBAR -->
+
+    <div class="toolbar">
+
+        <button id="runButton">
+            ▶ Run
+        </button>
+
+        <button id="exampleButton">
+            🧪 Example
+        </button>
+
+        <button id="saveButton">
+            💾 Save
+        </button>
+
+        <button id="loadButton">
+            📂 Load
+        </button>
+
+        <button id="clearButton">
+            🗑 Clear
+        </button>
+
+        <input
+            type="file"
+            id="fileInput"
+            accept=".mys,.txt,.js"
+            hidden
+        >
+
+    </div>
+
+
+    <!-- WORKSPACE -->
+
+    <div class="workspace">
+
+
+        <!-- EDITOR -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <span>📝 Editor</span>
+
+                <small>
+                    Ctrl + Enter = Run
+                </small>
+
+            </div>
+
+            <textarea
+                id="codeEditor"
+                spellcheck="false"
+            ># Welcome to MyScript v2.0.0
+
+LET name = "MyScript"
+LET result = 10 + 5 * 2
+
+PRINT "Welcome to " + name
+PRINT "Calculation result:"
+PRINT result
+PRINT (10 + 5) * 2</textarea>
+
+        </section>
+
+
+        <!-- OUTPUT -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <span>🖥 Console</span>
+
+                <small>
+                    Output
+                </small>
+
+            </div>
+
+            <div id="output">
+
+                <span class="empty-output">
+                    MyScript console ready...
+                </span>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+
+    <!-- INFORMATION -->
+
+    <section class="info">
+
+        <h2>MyScript IDE</h2>
+
+        <p>
+            Write MyScript code in the editor and press
+            <kbd>Run</kbd> to execute your program. Use LET, PRINT,
+            arithmetic expressions, IF/ELSE, REPEAT, INPUT, and functions.
+            Save your programs as .mys files and load them again later.
+        </p>
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    MyScript IDE © 2026
+
+</footer>
+
+
+<!-- Load the v2 language engine before the IDE controller. -->
+<script src="lexer.js"></script>
+<script src="ast.js"></script>
+<script src="parser.js"></script>
+<script src="ast-interpreter.js"></script>
+
+<!-- Keep the original interpreter available for advanced legacy commands. -->
+<script src="interpreter.js"></script>
+<script src="index.js"></script>
+
+
+</body>
+
+</html>
