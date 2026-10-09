@@ -4,12 +4,11 @@ MyScript is a small browser-based programming-language playground. It includes a
 
 ## Run the project
 
-1. Extract the ZIP file.
-2. Open the `MyScript` folder in Visual Studio Code.
-3. Open `index.html` in a browser, or use the VS Code Live Server extension.
-4. Write a program in the editor and click **Run**. You can also press **Ctrl + Enter**.
-5. Use **Example** to load a demonstration program.
-6. Use **Save** to download a `.mys` file and **Load** to open a saved `.mys` or text file.
+1.Open the `MyScript` folder in Visual Studio Code
+2. Open `index.html` in a browser, or use the VS Code Live Server extension.
+3. Write a program in the editor and click **Run**. You can also press **Ctrl + Enter**.
+4. Use **Example** to load a demonstration program.
+
 
 No build step or package installation is required.
 
