@@ -1,0 +1,45 @@
+name: MyScript CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate MyScript
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          set -e
+          for file in index.js interpreter.js lexer.js ast.js parser.js ast-interpreter.js test-v2.js; do
+            if [ -f "$file" ]; then
+              echo "Checking $file"
+              node --check "$file"
+            fi
+          done
+
+      - name: Verify required project files
+        shell: bash
+        run: |
+          set -e
+          for file in index.html index.js interpreter.js lexer.js ast.js parser.js ast-interpreter.js; do
+            test -f "$file" || { echo "Missing required file: $file"; exit 1; }
+          done
+          echo "All required MyScript files are present."
